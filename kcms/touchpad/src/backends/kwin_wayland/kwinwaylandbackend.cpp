@@ -40,6 +40,8 @@ KWinWaylandBackend::KWinWaylandBackend(QObject *parent) :
                                           QDBusConnection::sessionBus(),
                                           this);
 
+    m_mode = TouchpadInputBackendMode::WaylandLibinput;
+
     findTouchpads();
 
     m_deviceManager->connection().connect(QStringLiteral("org.kde.KWin"),

@@ -24,6 +24,12 @@
 #include <QVector>
 #include <QVariantHash>
 
+enum class TouchpadInputBackendMode {
+    WaylandLibinput = 0,
+    XLibinput = 1,
+    XSynaptics = 2
+};
+
 class Q_DECL_EXPORT TouchpadBackend : public QObject
 {
     Q_OBJECT
@@ -33,6 +39,8 @@ protected:
 
 public:
     static TouchpadBackend *implementation();
+
+    TouchpadInputBackendMode m_mode;
 
     virtual bool applyConfig(const QVariantHash &) {return false;}
     virtual bool getConfig(QVariantHash &) {return false;}

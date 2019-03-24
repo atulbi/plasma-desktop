@@ -128,7 +128,7 @@ const struct Parameter synapticsProperties[] = {
     { NULL, PT_INT, 0, 0, 0, 0, 0 }
 };
 
-SynapticsTouchpad::SynapticsTouchpad(Display *display, int deviceId): XlibTouchpad(display, deviceId),
+SynapticsTouchpad::SynapticsTouchpad(Display *display, int deviceId): XlibTouchpad(nullptr,display, deviceId),
     m_resX(1), m_resY(1)
 {
     m_capsAtom.intern(m_connection, SYNAPTICS_PROP_CAPABILITIES);

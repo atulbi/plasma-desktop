@@ -109,6 +109,8 @@ XlibTouchpad* XlibBackend::findTouchpad()
          info < deviceInfo.data() + nDevices; info++)
     {
         // Make sure device is touchpad
+
+        qDebug() << info->name << info->type << info->id ;
         if (info->type != m_touchpadAtom.atom()) {
             continue;
         }
@@ -120,8 +122,10 @@ XlibTouchpad* XlibBackend::findTouchpad()
         Atom *atom = properties.data(), *atomEnd = properties.data() + nProperties;
         for (; atom != atomEnd; atom++) {
             if (*atom == m_libinputIdentifierAtom.atom()) {
+                m_mode = TouchpadInputBackendMode::XLibinput;
                 return new LibinputTouchpad(m_display.data(), info->id);
             } else if (*atom == m_synapticsIdentifierAtom.atom()) {
+                m_mode = TouchpadInputBackendMode::XSynaptics;
                 return new SynapticsTouchpad(m_display.data(), info->id);
             }
         }

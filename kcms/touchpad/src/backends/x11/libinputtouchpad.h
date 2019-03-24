@@ -23,6 +23,7 @@
 
 class LibinputTouchpad : public XlibTouchpad
 {
+Q_OBJECT
 public:
     LibinputTouchpad(Display *display, int deviceId);
 };

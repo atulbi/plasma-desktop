@@ -18,6 +18,8 @@
 
 #include "libinputtouchpad.h"
 
+#include <libinput-properties.h>
+
 #include <stddef.h>
 #include <limits.h>
 
@@ -34,7 +36,7 @@ const struct Parameter libinputProperties[] = {
     { NULL, PT_INT, 0, 0, 0, 0, 0 }
 };
 
-LibinputTouchpad::LibinputTouchpad(Display *display, int deviceId): XlibTouchpad(display, deviceId)
+LibinputTouchpad::LibinputTouchpad(Display *display, int deviceId): XlibTouchpad(nullptr,display, deviceId)
 {
     loadSupportedProperties(libinputProperties);
 

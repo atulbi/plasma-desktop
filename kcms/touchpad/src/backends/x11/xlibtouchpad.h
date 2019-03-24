@@ -19,6 +19,7 @@
 #ifndef XLIBTOUCHPAD_H
 #define XLIBTOUCHPAD_H
 
+#include <QObject>
 #include <QVariantHash>
 #include <QSet>
 
@@ -42,10 +43,11 @@ struct Parameter {
     unsigned prop_offset;       /* Offset inside property */
 };
 
-class XlibTouchpad
+class XlibTouchpad : public QObject
 {
+Q_OBJECT
 public:
-    XlibTouchpad(Display *display, int deviceId);
+    XlibTouchpad(QObject *parent, Display *display, int deviceId);
     virtual ~XlibTouchpad() {};
 
     int deviceId() { return m_deviceId; }
