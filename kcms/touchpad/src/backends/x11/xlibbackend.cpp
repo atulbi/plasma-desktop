@@ -122,7 +122,7 @@ XlibTouchpad* XlibBackend::findTouchpad()
         for (; atom != atomEnd; atom++) {
             if (*atom == m_libinputIdentifierAtom.atom()) {
                 m_mode = TouchpadInputBackendMode::XLibinput;
-                return new LibinputTouchpad(m_display.data(), info->id, info->name);
+                return new LibinputTouchpad(m_display.data(), info->id);
             } else if (*atom == m_synapticsIdentifierAtom.atom()) {
                 m_mode = TouchpadInputBackendMode::XSynaptics;
                 return new SynapticsTouchpad(m_display.data(), info->id);

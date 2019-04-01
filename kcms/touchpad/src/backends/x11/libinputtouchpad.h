@@ -107,7 +107,7 @@ class LibinputTouchpad : public XlibTouchpad
     Q_PROPERTY(bool clickMethodClickfinger READ isClickMethodClickfinger WRITE setClickMethodClickfinger NOTIFY clickMethodChanged)
 
 public:
-    LibinputTouchpad(Display *display, int deviceId, QString deviceName);
+    LibinputTouchpad(Display *display, int deviceId);
     bool getConfig() override;
     bool applyConfig() override;
     bool getDefaultConfig() override;
@@ -119,7 +119,7 @@ public:
         return m_name;
     }
     bool supportsDisableEvents() {
-        return m_supportsDisableEvents.val;
+        return m_supportsDisableEvents.avail ? m_supportsDisableEvents.val : false;
     }
     bool enabled() {
         return !m_enabled.val;
@@ -146,7 +146,7 @@ public:
     }
 
     bool supportsDisableEventsOnExternalMouse() const {
-        return m_supportsDisableEventsOnExternalMouse.val;
+        return m_supportsDisableEventsOnExternalMouse.avail ? m_supportsDisableEventsOnExternalMouse.val : false;
     }
 
     bool supportsDisableWhileTyping() const {
@@ -188,7 +188,7 @@ public:
     }
 
     bool supportsPointerAccelerationProfileFlat() const {
-        return m_supportsPointerAccelerationProfileFlat.val;
+        return m_supportsPointerAccelerationProfileFlat.avail ? m_supportsPointerAccelerationProfileFlat.val : false;
     }
     bool defaultPointerAccelerationProfileFlat() const {
         return m_defaultPointerAccelerationProfileFlat.val;
@@ -201,7 +201,7 @@ public:
     }
 
     bool supportsPointerAccelerationProfileAdaptive() const {
-        return m_supportsPointerAccelerationProfileAdaptive.val;
+        return m_supportsPointerAccelerationProfileAdaptive.avail ? m_supportsPointerAccelerationProfileAdaptive.val : false;
     }
     bool defaultPointerAccelerationProfileAdaptive() const {
         return m_defaultPointerAccelerationProfileAdaptive.val;
@@ -229,7 +229,7 @@ public:
     }
 
     bool supportsScrollTwoFinger() const {
-        return m_supportsScrollTwoFinger.val;
+        return m_supportsScrollTwoFinger.avail ? m_supportsScrollTwoFinger.val : false;
     }
     bool scrollTwoFingerEnabledByDefault() const {
         return m_scrollTwoFingerEnabledByDefault.val;
@@ -242,7 +242,7 @@ public:
     }
 
     bool supportsScrollEdge() const {
-        return m_supportsScrollEdge.val;
+        return m_supportsScrollEdge.avail ? m_supportsScrollEdge.val : false;
     }
     bool scrollEdgeEnabledByDefault() const {
         return m_scrollEdgeEnabledByDefault.val;
@@ -255,7 +255,7 @@ public:
     }
 
     bool supportsScrollOnButtonDown() const {
-        return m_supportsScrollOnButtonDown.val;
+        return m_supportsScrollOnButtonDown.avail ? m_supportsScrollOnButtonDown.val : false;
     }
     bool scrollOnButtonDownEnabledByDefault() const {
         return m_scrollOnButtonDownEnabledByDefault.val;
@@ -326,7 +326,7 @@ public:
     }
 
     bool supportsClickMethodAreas() const {
-        return m_supportsClickMethodAreas.val;
+        return m_supportsClickMethodAreas.avail ? m_supportsClickMethodAreas.val : false;
     }
     bool defaultClickMethodAreas() const {
         return m_defaultClickMethodAreas.val;
@@ -339,7 +339,7 @@ public:
     }
 
     bool supportsClickMethodClickfinger() const {
-        return m_supportsClickMethodClickfinger.val;
+        return m_supportsClickMethodClickfinger.avail ? m_supportsClickMethodClickfinger.val : false;
     }
     bool defaultClickMethodClickfinger() const {
         return m_defaultClickMethodClickfinger.val;

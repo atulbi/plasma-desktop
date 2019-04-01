@@ -173,14 +173,14 @@ Qt::MouseButtons maskBtns(Display *display, XIButtonClassInfo *buttonInfo)
     return buttons;
 }
 
-LibinputTouchpad::LibinputTouchpad(Display *display, int deviceId, QString deviceName):
-    XlibTouchpad(nullptr, display, deviceId),
-    m_name(deviceName)
+LibinputTouchpad::LibinputTouchpad(Display *display, int deviceId):
+    XlibTouchpad(nullptr, display, deviceId)
 {
     loadSupportedProperties(libinputProperties);
 
     int nDevices = 0;
     XIDeviceInfo *deviceInfo =  XIQueryDevice(m_display, m_deviceId, &nDevices);
+    m_name = deviceInfo->name;
 
     for (int i = 0; i < deviceInfo->num_classes; ++i) {
         XIAnyClassInfo *classInfo = deviceInfo->classes[i];
@@ -196,16 +196,6 @@ LibinputTouchpad::LibinputTouchpad(Display *display, int deviceId, QString devic
         }
     }
     XIFreeDeviceInfo(deviceInfo);
-
-    m_supportsDisableEvents.set(m_supportsDisableEvents.avail);
-    m_supportsDisableEventsOnExternalMouse.set(m_supportsDisableEventsOnExternalMouse.avail);
-    m_supportsPointerAccelerationProfileAdaptive.set(m_supportsPointerAccelerationProfileAdaptive.avail);
-    m_supportsPointerAccelerationProfileFlat.set(m_supportsPointerAccelerationProfileFlat.avail);
-    m_supportsClickMethodAreas.set(m_supportsClickMethodAreas.avail);
-    m_supportsClickMethodClickfinger.set(m_supportsClickMethodClickfinger.avail);
-    m_supportsScrollOnButtonDown.set(m_supportsScrollOnButtonDown.avail);
-    m_supportsScrollTwoFinger.set(m_supportsScrollTwoFinger.avail);
-    m_supportsScrollEdge.set(m_supportsScrollEdge.avail);
 
     m_supportsLeftHanded.set(m_leftHanded.avail);
     m_supportsDisableWhileTyping.set(m_disableWhileTyping.avail);
