@@ -110,7 +110,6 @@ XlibTouchpad* XlibBackend::findTouchpad()
     {
         // Make sure device is touchpad
 
-        qDebug() << info->name << info->type << info->id ;
         if (info->type != m_touchpadAtom.atom()) {
             continue;
         }
@@ -123,7 +122,7 @@ XlibTouchpad* XlibBackend::findTouchpad()
         for (; atom != atomEnd; atom++) {
             if (*atom == m_libinputIdentifierAtom.atom()) {
                 m_mode = TouchpadInputBackendMode::XLibinput;
-                return new LibinputTouchpad(m_display.data(), info->id);
+                return new LibinputTouchpad(m_display.data(), info->id, info->name);
             } else if (*atom == m_synapticsIdentifierAtom.atom()) {
                 m_mode = TouchpadInputBackendMode::XSynaptics;
                 return new SynapticsTouchpad(m_display.data(), info->id);
@@ -148,6 +147,20 @@ bool XlibBackend::applyConfig(const QVariantHash &p)
     return success;
 }
 
+bool XlibBackend::applyConfig()
+{
+    if (!m_device) {
+        return false;
+    }
+
+    bool success = m_device->applyConfig();
+    if (!success) {
+        m_errorString = i18n("Cannot apply touchpad configuration");
+    }
+
+    return success;
+}
+
 bool XlibBackend::getConfig(QVariantHash &p)
 {
     if (!m_device) {
@@ -159,6 +172,41 @@ bool XlibBackend::getConfig(QVariantHash &p)
         m_errorString = i18n("Cannot read touchpad configuration");
     }
     return success;
+}
+
+bool XlibBackend::getConfig()
+{
+    if(!m_device) {
+        return false;
+    }
+
+    bool success = m_device->getConfig();
+    if (!success) {
+        m_errorString = i18n("Cannot read touchpad configuration");
+    }
+    return success;
+}
+
+bool XlibBackend::getDefaultConfig()
+{
+    if (!m_device) {
+        return false;
+    }
+
+    bool success = m_device->getDefaultConfig();
+    if (!success) {
+        m_errorString = i18n("Cannot read default touchpad configuration");
+    }
+    return success;
+}
+
+bool XlibBackend::isChangedConfig() const
+{
+    if (!m_device) {
+        return false;
+    }
+
+    return m_device->isChangedConfig();
 }
 
 void XlibBackend::setTouchpadEnabled(bool enable)

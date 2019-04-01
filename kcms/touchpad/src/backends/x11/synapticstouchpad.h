@@ -24,6 +24,8 @@
 
 class SynapticsTouchpad : public XlibTouchpad
 {
+    Q_OBJECT
+
 public:
     SynapticsTouchpad(Display *display, int deviceId);
 

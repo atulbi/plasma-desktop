@@ -45,7 +45,8 @@ struct Parameter {
 
 class XlibTouchpad : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
+
 public:
     XlibTouchpad(QObject *parent, Display *display, int deviceId);
     virtual ~XlibTouchpad() {};
@@ -54,6 +55,10 @@ public:
     const QStringList &supportedParameters() const { return m_supported; }
     bool applyConfig(const QVariantHash &p);
     bool getConfig(QVariantHash &p);
+    virtual bool getConfig() { return false; }
+    virtual bool applyConfig() { return false; }
+    virtual bool getDefaultConfig() { return false; }
+    virtual bool isChangedConfig() { return false; }
     void setEnabled(bool enable);
     bool enabled();
     void setTouchpadOff(int touchpadOff);

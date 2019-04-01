@@ -46,8 +46,7 @@ TouchpadConfigContainer::TouchpadConfigContainer(QWidget *parent, const QVariant
         TouchpadInputBackendMode mode = findX11Backend();
 
         if (mode == TouchpadInputBackendMode::XLibinput){
-            qDebug() << "ATUL :: USING LIBINPUT ON X11";
-            m_plugin = new TouchpadConfigXlib(this);
+            m_plugin = new TouchpadConfigLibinput(this);
         }
         else if (mode == TouchpadInputBackendMode::XSynaptics)
             m_plugin = new TouchpadConfigXlib(this);

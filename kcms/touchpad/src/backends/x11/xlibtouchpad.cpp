@@ -190,7 +190,6 @@ PropertyInfo* XlibTouchpad::getDevProperty(const QLatin1String& propName)
     if (!prop) {
         return 0;
     }
-
     PropertyInfo p(m_display, m_deviceId, prop, m_floatType.atom());
     if (!p.b && !p.f && !p.i) {
         return 0;

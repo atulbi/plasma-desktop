@@ -45,10 +45,10 @@ public:
     virtual bool applyConfig(const QVariantHash &) {return false;}
     virtual bool getConfig(QVariantHash &) {return false;}
 
-    virtual bool applyConfig() {return false;}
-    virtual bool getConfig() {return false;}
-    virtual bool getDefaultConfig() {return false;}
-    virtual bool isChangedConfig() const {return false;}
+    virtual bool applyConfig() { return false; }
+    virtual bool getConfig() { return false; }
+    virtual bool getDefaultConfig() { return false; }
+    virtual bool isChangedConfig() const { return false; }
 
     virtual QStringList supportedParameters() const {return QStringList();}
     virtual QString errorString() const {return QString();}
