@@ -195,8 +195,18 @@ LibinputTouchpad::LibinputTouchpad(Display *display, int deviceId, QString devic
             m_tapFingerCount.set(touchInfo->num_touches);
         }
     }
-
     XIFreeDeviceInfo(deviceInfo);
+
+    m_supportsDisableEvents.set(m_supportsDisableEvents.avail);
+    m_supportsDisableEventsOnExternalMouse.set(m_supportsDisableEventsOnExternalMouse.avail);
+    m_supportsPointerAccelerationProfileAdaptive.set(m_supportsPointerAccelerationProfileAdaptive.avail);
+    m_supportsPointerAccelerationProfileFlat.set(m_supportsPointerAccelerationProfileFlat.avail);
+    m_supportsClickMethodAreas.set(m_supportsClickMethodAreas.avail);
+    m_supportsClickMethodClickfinger.set(m_supportsClickMethodClickfinger.avail);
+    m_supportsScrollOnButtonDown.set(m_supportsScrollOnButtonDown.avail);
+    m_supportsScrollTwoFinger.set(m_supportsScrollTwoFinger.avail);
+    m_supportsScrollEdge.set(m_supportsScrollEdge.avail);
+
     m_supportsLeftHanded.set(m_leftHanded.avail);
     m_supportsDisableWhileTyping.set(m_disableWhileTyping.avail);
     m_supportsMiddleEmulation.set(m_middleEmulation.avail);
@@ -380,7 +390,7 @@ bool LibinputTouchpad::valueLoader(Prop<T> &prop)
 
     QVariant reply = getParameter(p);
     if (!reply.isValid()) {
-        qCDebug(KCM_TOUCHPAD) << "Property not available : " << QString::fromAscii(prop.name) << reply;
+        qCDebug(KCM_TOUCHPAD) << "Property not available : " << QString::fromAscii(prop.name);
         prop.avail = false;
         return true;
     }

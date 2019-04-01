@@ -188,26 +188,26 @@ public:
     }
 
     bool supportsPointerAccelerationProfileFlat() const {
-        return m_supportsPointerAccelerationProfileFlat.avail ? m_supportsPointerAccelerationProfileFlat.val : false;
+        return m_supportsPointerAccelerationProfileFlat.val;
     }
     bool defaultPointerAccelerationProfileFlat() const {
-        return m_defaultPointerAccelerationProfileFlat.avail ? m_defaultPointerAccelerationProfileFlat.val : false;
+        return m_defaultPointerAccelerationProfileFlat.val;
     }
     bool pointerAccelerationProfileFlat() const {
-        return m_pointerAccelerationProfileFlat.avail ? m_pointerAccelerationProfileFlat.val : false;
+        return m_pointerAccelerationProfileFlat.val;
     }
     void setPointerAccelerationProfileFlat(bool set) {
         m_pointerAccelerationProfileFlat.set(set);
     }
 
     bool supportsPointerAccelerationProfileAdaptive() const {
-        return m_supportsPointerAccelerationProfileAdaptive.avail ? m_supportsPointerAccelerationProfileAdaptive.val : false;
+        return m_supportsPointerAccelerationProfileAdaptive.val;
     }
     bool defaultPointerAccelerationProfileAdaptive() const {
-        return m_defaultPointerAccelerationProfileAdaptive.avail ? m_defaultPointerAccelerationProfileAdaptive.val : false;
+        return m_defaultPointerAccelerationProfileAdaptive.val;
     }
     bool pointerAccelerationProfileAdaptive() const {
-        return m_pointerAccelerationProfileAdaptive.avail ? m_pointerAccelerationProfileAdaptive.val : false;
+        return m_pointerAccelerationProfileAdaptive.val;
     }
     void setPointerAccelerationProfileAdaptive(bool set) {
         m_pointerAccelerationProfileAdaptive.set(set);
