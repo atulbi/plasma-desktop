@@ -187,21 +187,22 @@ LibinputTouchpad::LibinputTouchpad(Display *display, int deviceId):
 
         if (classInfo->type == XIButtonClass) {
             XIButtonClassInfo *btnInfo = (XIButtonClassInfo*) classInfo;
+            m_supportedButtons.avail = true;
             m_supportedButtons.set(maskBtns(m_display, btnInfo));
         }
-
         if (classInfo->type == XITouchClass) {
             XITouchClassInfo *touchInfo = (XITouchClassInfo*) classInfo;
+            m_tapFingerCount.avail = true;
             m_tapFingerCount.set(touchInfo->num_touches);
         }
     }
     XIFreeDeviceInfo(deviceInfo);
 
-    m_supportsLeftHanded.set(m_leftHanded.avail);
-    m_supportsDisableWhileTyping.set(m_disableWhileTyping.avail);
-    m_supportsMiddleEmulation.set(m_middleEmulation.avail);
-    m_supportsPointerAcceleration.set(m_pointerAcceleration.avail);
-    m_supportsNaturalScroll.set(m_naturalScroll.avail);
+    /* FingerCount cannot be zero */
+    if (!m_tapFingerCount.val) {
+        m_tapFingerCount.avail = true;
+        m_tapFingerCount.set(1);
+    }
 }
 
 bool LibinputTouchpad::getConfig()

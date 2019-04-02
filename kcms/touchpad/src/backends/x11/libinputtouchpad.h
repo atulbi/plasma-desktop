@@ -133,7 +133,7 @@ public:
         return m_supportedButtons.val;
     }
     bool supportsLeftHanded() const {
-        return m_supportsLeftHanded.val;
+        return m_leftHanded.avail;
     }
     bool leftHandedEnabledByDefault() const {
         return m_leftHandedEnabledByDefault.val;
@@ -150,7 +150,7 @@ public:
     }
 
     bool supportsDisableWhileTyping() const {
-        return m_supportsDisableWhileTyping.val;
+        return m_disableWhileTyping.avail;
     }
     bool disableWhileTypingEnabledByDefault() const {
         return m_disableWhileTypingEnabledByDefault.val;
@@ -163,7 +163,7 @@ public:
     }
 
     bool supportsMiddleEmulation() const {
-        return m_supportsMiddleEmulation.val;
+        return m_middleEmulation.avail;
     }
     bool middleEmulationEnabledByDefault() const {
         return m_middleEmulationEnabledByDefault.val;
@@ -178,7 +178,7 @@ public:
     //
     // acceleration speed and profile
     bool supportsPointerAcceleration() const {
-        return m_supportsPointerAcceleration.val;
+        return m_pointerAcceleration.avail;
     }
     qreal pointerAcceleration() const {
         return m_pointerAcceleration.val;
@@ -216,7 +216,7 @@ public:
     //
     // scrolling
     bool supportsNaturalScroll() const {
-        return m_supportsNaturalScroll.val;
+        return m_naturalScroll.avail;
     }
     bool naturalScrollEnabledByDefault() const {
         return m_naturalScrollEnabledByDefault.val;
@@ -415,7 +415,6 @@ private:
     // advanced
     Prop<Qt::MouseButtons> m_supportedButtons  = Prop<Qt::MouseButtons>("SupportedButtons");
 
-    Prop<bool> m_supportsLeftHanded = Prop<bool>("SupportsLeftHanded");
     Prop<bool> m_leftHandedEnabledByDefault = Prop<bool>("LeftHandedEnabledByDefault");
     Prop<bool> m_leftHanded = Prop<bool>("LeftHanded");
 
@@ -423,17 +422,14 @@ private:
     Prop<bool> m_disableEventsOnExternalMouse = Prop<bool>("DisableEventsOnExternalMouse");
     Prop<bool> m_disableEventsOnExternalMouseDefault = Prop<bool>("DisableEventsOnExternalMouseDefault");
 
-    Prop<bool> m_supportsDisableWhileTyping = Prop<bool>("SupportsDisableWhileTyping");
     Prop<bool> m_disableWhileTypingEnabledByDefault = Prop<bool>("DisableWhileTypingEnabledByDefault");
     Prop<bool> m_disableWhileTyping = Prop<bool>("DisableWhileTyping");
 
-    Prop<bool> m_supportsMiddleEmulation = Prop<bool>("SupportsMiddleEmulation");
     Prop<bool> m_middleEmulationEnabledByDefault = Prop<bool>("MiddleEmulationEnabledByDefault");
     Prop<bool> m_middleEmulation = Prop<bool>("MiddleEmulation");
 
     //
     // acceleration speed and profile
-    Prop<bool> m_supportsPointerAcceleration = Prop<bool>("SupportsPointerAcceleration");
     Prop<qreal> m_defaultPointerAcceleration = Prop<qreal>("DefaultPointerAcceleration");
     Prop<qreal> m_pointerAcceleration = Prop<qreal>("PointerAcceleration");
 
@@ -447,7 +443,6 @@ private:
 
     //
     // scrolling
-    Prop<bool> m_supportsNaturalScroll = Prop<bool>("SupportsNaturalScroll");
     Prop<bool> m_naturalScrollEnabledByDefault = Prop<bool>("NaturalScrollEnabledByDefault");
     Prop<bool> m_naturalScroll = Prop<bool>("NaturalScroll");
 
