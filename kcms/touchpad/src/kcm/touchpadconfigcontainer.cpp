@@ -34,25 +34,19 @@ extern "C"
     }
 }
 
-TouchpadInputBackendMode findX11Backend() {
-    TouchpadBackend *choice = TouchpadBackend::implementation();
-    return choice->m_mode;
-}
-
 TouchpadConfigContainer::TouchpadConfigContainer(QWidget *parent, const QVariantList &args)
     : KCModule(parent, args)
 {
+    TouchpadBackend *backend = TouchpadBackend::implementation();
     if (KWindowSystem::isPlatformX11()) {
-        TouchpadInputBackendMode mode = findX11Backend();
-
-        if (mode == TouchpadInputBackendMode::XLibinput){
-            m_plugin = new TouchpadConfigLibinput(this);
+        if (backend->m_mode == TouchpadInputBackendMode::XLibinput){
+            m_plugin = new TouchpadConfigLibinput(this, backend);
         }
-        else if (mode == TouchpadInputBackendMode::XSynaptics)
-            m_plugin = new TouchpadConfigXlib(this);
+        else if (backend->m_mode == TouchpadInputBackendMode::XSynaptics)
+            m_plugin = new TouchpadConfigXlib(this, backend);
 
     } else if (KWindowSystem::isPlatformWayland()) {
-        m_plugin = new TouchpadConfigLibinput(this);
+        m_plugin = new TouchpadConfigLibinput(this, backend);
     }
 }
 

@@ -98,7 +98,7 @@ QWidget *addTab(QTabWidget *tabs, T &form)
     return widget;
 }
 
-TouchpadConfigXlib::TouchpadConfigXlib(TouchpadConfigContainer *parent, const QVariantList &args)
+TouchpadConfigXlib::TouchpadConfigXlib(TouchpadConfigContainer *parent, TouchpadBackend* backend, const QVariantList &args)
     : TouchpadConfigPlugin(parent),
       m_configOutOfSync(false)
 {
@@ -174,7 +174,7 @@ TouchpadConfigXlib::TouchpadConfigXlib(TouchpadConfigContainer *parent, const QV
     new SliderPair(m_pointerMotion.kcfg_PressureMotionMinZ,
                    m_pointerMotion.kcfg_PressureMotionMaxZ, this);
 
-    m_backend = TouchpadBackend::implementation();
+    m_backend = backend;
 
     KConfigDialogManager::changedMap()->insert("CustomSlider",
                                                SIGNAL(valueChanged(double)));

@@ -179,7 +179,7 @@ LibinputTouchpad::LibinputTouchpad(Display *display, int deviceId):
     loadSupportedProperties(libinputProperties);
 
     int nDevices = 0;
-    XIDeviceInfo *deviceInfo =  XIQueryDevice(m_display, m_deviceId, &nDevices);
+    XIDeviceInfo *deviceInfo = XIQueryDevice(m_display, m_deviceId, &nDevices);
     m_name = deviceInfo->name;
 
     for (int i = 0; i < deviceInfo->num_classes; ++i) {
