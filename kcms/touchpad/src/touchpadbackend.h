@@ -36,19 +36,20 @@ class Q_DECL_EXPORT TouchpadBackend : public QObject
 
 protected:
         explicit TouchpadBackend(QObject *parent) : QObject(parent) {}
+        TouchpadInputBackendMode m_mode;
 
 public:
     static TouchpadBackend *implementation();
 
-    TouchpadInputBackendMode m_mode;
+    TouchpadInputBackendMode getMode() const {return m_mode;}
 
     virtual bool applyConfig(const QVariantHash &) {return false;}
     virtual bool getConfig(QVariantHash &) {return false;}
 
-    virtual bool applyConfig() { return false; }
-    virtual bool getConfig() { return false; }
-    virtual bool getDefaultConfig() { return false; }
-    virtual bool isChangedConfig() const { return false; }
+    virtual bool applyConfig() {return false;}
+    virtual bool getConfig() {return false;}
+    virtual bool getDefaultConfig() {return false;}
+    virtual bool isChangedConfig() const {return false;}
 
     virtual QStringList supportedParameters() const {return QStringList();}
     virtual QString errorString() const {return QString();}

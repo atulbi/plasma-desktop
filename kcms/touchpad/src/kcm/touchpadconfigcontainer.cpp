@@ -39,10 +39,10 @@ TouchpadConfigContainer::TouchpadConfigContainer(QWidget *parent, const QVariant
 {
     TouchpadBackend *backend = TouchpadBackend::implementation();
     if (KWindowSystem::isPlatformX11()) {
-        if (backend->m_mode == TouchpadInputBackendMode::XLibinput){
+        if (backend->getMode() == TouchpadInputBackendMode::XLibinput){
             m_plugin = new TouchpadConfigLibinput(this, backend);
         }
-        else if (backend->m_mode == TouchpadInputBackendMode::XSynaptics)
+        else if (backend->getMode() == TouchpadInputBackendMode::XSynaptics)
             m_plugin = new TouchpadConfigXlib(this, backend);
 
     } else if (KWindowSystem::isPlatformWayland()) {

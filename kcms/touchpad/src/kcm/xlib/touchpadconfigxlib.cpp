@@ -99,7 +99,7 @@ QWidget *addTab(QTabWidget *tabs, T &form)
 }
 
 TouchpadConfigXlib::TouchpadConfigXlib(TouchpadConfigContainer *parent, TouchpadBackend* backend, const QVariantList &args)
-    : TouchpadConfigPlugin(parent),
+    : TouchpadConfigPlugin(parent, backend),
       m_configOutOfSync(false)
 {
     KAboutData* data = new KAboutData(QStringLiteral("kcm_touchpad"),
@@ -173,8 +173,6 @@ TouchpadConfigXlib::TouchpadConfigXlib(TouchpadConfigContainer *parent, Touchpad
                    m_sensitivity.kcfg_FingerHigh, this);
     new SliderPair(m_pointerMotion.kcfg_PressureMotionMinZ,
                    m_pointerMotion.kcfg_PressureMotionMaxZ, this);
-
-    m_backend = backend;
 
     KConfigDialogManager::changedMap()->insert("CustomSlider",
                                                SIGNAL(valueChanged(double)));

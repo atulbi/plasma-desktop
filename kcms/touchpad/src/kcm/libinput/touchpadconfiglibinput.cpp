@@ -36,7 +36,7 @@
 #include "version.h"
 
 TouchpadConfigLibinput::TouchpadConfigLibinput(TouchpadConfigContainer *parent, TouchpadBackend* backend, const QVariantList &args)
-    : TouchpadConfigPlugin(parent)
+    : TouchpadConfigPlugin(parent, backend)
 {
     KAboutData* data = new KAboutData(QStringLiteral("kcm_touchpad"),
                     i18n("Touchpad KCM"),
@@ -52,7 +52,6 @@ TouchpadConfigLibinput::TouchpadConfigLibinput(TouchpadConfigContainer *parent, 
 
     m_parent->setAboutData(data);
 
-    m_backend = backend;
     m_initError = !m_backend->errorString().isNull();
 
     m_view = new QQuickWidget(this);

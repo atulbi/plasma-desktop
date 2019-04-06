@@ -347,6 +347,11 @@ QStringList XlibBackend::listMouses(const QStringList &blacklist)
     return list;
 }
 
+QVector<QObject *> XlibBackend::getDevices() const
+{
+    return m_device ? QVector<QObject*> { m_device.data() } : QVector<QObject*>();
+}
+
 void XlibBackend::watchForEvents(bool keyboard)
 {
     if (!m_notifications) {
