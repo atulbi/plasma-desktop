@@ -28,112 +28,89 @@
 #include <libinput-properties.h>
 #include "logging.h"
 
-namespace {
-template<typename T>
-T valueLoaderPart(QVariant const &reply) { Q_UNUSED(reply); return T(); }
-
-template<>
-bool valueLoaderPart(QVariant const &reply) { return reply.toBool(); }
-
-template<>
-int valueLoaderPart(QVariant const &reply) { return reply.toInt(); }
-
-template<>
-quint32 valueLoaderPart(QVariant const &reply) { return reply.toInt(); }
-
-template<>
-qreal valueLoaderPart(QVariant const &reply) { return reply.toReal(); }
-
-template<>
-QString valueLoaderPart(QVariant const &reply) { return reply.toString(); }
-
-template<>
-Qt::MouseButtons valueLoaderPart(QVariant const &reply) { return static_cast<Qt::MouseButtons>(reply.toInt()); }
-}
-
 const struct Parameter libinputProperties[] = {
 
     /* libinput disable supports property */
-    {"SupportsDisableEvents",               PT_INT, 0, 1, LIBINPUT_PROP_SENDEVENTS_AVAILABLE, 8, 0},
-    {"Enabled",                             PT_INT, 0, 1, LIBINPUT_PROP_SENDEVENTS_ENABLED, 8, 0},
-    {"EnabledDefault",                      PT_INT, 0, 1, LIBINPUT_PROP_SENDEVENTS_ENABLED_DEFAULT, 8, 0},
+    {"supportsDisableEvents",               PT_INT, 0, 1, LIBINPUT_PROP_SENDEVENTS_AVAILABLE, 8, 0},
+    {"enabled",                             PT_INT, 0, 1, LIBINPUT_PROP_SENDEVENTS_ENABLED, 8, 0},
+    {"enabledDefault",                      PT_INT, 0, 1, LIBINPUT_PROP_SENDEVENTS_ENABLED_DEFAULT, 8, 0},
 
     /* LeftHandSupport */
-    {"LeftHandedEnabledByDefault",          PT_INT, 0, 1, LIBINPUT_PROP_LEFT_HANDED_DEFAULT, 8, 0},
-    {"LeftHanded",                          PT_INT, 0, 1, LIBINPUT_PROP_LEFT_HANDED, 8, 0},
+    {"leftHandedEnabledByDefault",          PT_INT, 0, 1, LIBINPUT_PROP_LEFT_HANDED_DEFAULT, 8, 0},
+    {"leftHanded",                          PT_INT, 0, 1, LIBINPUT_PROP_LEFT_HANDED, 8, 0},
 
     /* Disable on external mouse */
-    {"SupportsDisableEventsOnExternalMouse",PT_INT, 0, 1, LIBINPUT_PROP_SENDEVENTS_AVAILABLE, 8, 1},
-    {"DisableEventsOnExternalMouse",        PT_INT, 0, 1, LIBINPUT_PROP_SENDEVENTS_ENABLED, 8, 1},
-    {"DisableEventsOnExternalMouseDefault", PT_INT, 0, 1, LIBINPUT_PROP_SENDEVENTS_ENABLED_DEFAULT, 8, 1},
+    {"supportsDisableEventsOnExternalMouse",PT_INT, 0, 1, LIBINPUT_PROP_SENDEVENTS_AVAILABLE, 8, 1},
+    {"disableEventsOnExternalMouse",        PT_INT, 0, 1, LIBINPUT_PROP_SENDEVENTS_ENABLED, 8, 1},
+    {"disableEventsOnExternalMouseDefault", PT_INT, 0, 1, LIBINPUT_PROP_SENDEVENTS_ENABLED_DEFAULT, 8, 1},
 
     /* Disable while typing */
-    {"DisableWhileTypingEnabledByDefault",  PT_INT, 0, 1, LIBINPUT_PROP_DISABLE_WHILE_TYPING_DEFAULT, 8, 0},
-    {"DisableWhileTyping",                  PT_INT, 0, 1, LIBINPUT_PROP_DISABLE_WHILE_TYPING, 8, 0},
+    {"disableWhileTypingEnabledByDefault",  PT_INT, 0, 1, LIBINPUT_PROP_DISABLE_WHILE_TYPING_DEFAULT, 8, 0},
+    {"disableWhileTyping",                  PT_INT, 0, 1, LIBINPUT_PROP_DISABLE_WHILE_TYPING, 8, 0},
 
     /* Middle Emulation */
-    {"MiddleEmulationEnabledByDefault",     PT_INT, 0, 1, LIBINPUT_PROP_MIDDLE_EMULATION_ENABLED_DEFAULT, 8, 0},
-    {"MiddleEmulation",                     PT_INT, 0, 1, LIBINPUT_PROP_MIDDLE_EMULATION_ENABLED, 8, 0},
+    {"middleEmulationEnabledByDefault",     PT_INT, 0, 1, LIBINPUT_PROP_MIDDLE_EMULATION_ENABLED_DEFAULT, 8, 0},
+    {"middleEmulation",                     PT_INT, 0, 1, LIBINPUT_PROP_MIDDLE_EMULATION_ENABLED, 8, 0},
 
     /* This is a boolean for all three fingers, no per-finger config */
-    {"Tapping",                             PT_INT, 0, 1, LIBINPUT_PROP_TAP,     8,     0},
-    {"TapToClickEnabledByDefault",          PT_INT, 0, 1, LIBINPUT_PROP_TAP_DEFAULT, 8, 0},
+    {"tapToClick",                             PT_INT, 0, 1, LIBINPUT_PROP_TAP,     8,     0},
+    {"tapToClickEnabledByDefault",          PT_INT, 0, 1, LIBINPUT_PROP_TAP_DEFAULT, 8, 0},
 
     /* LMR */
-    {"LmrTapButtonMapEnabledByDefault",     PT_INT, 0, 1, LIBINPUT_PROP_TAP_BUTTONMAP_DEFAULT, 8, 1},
-    {"LmrTapButtonMap",                     PT_INT, 0, 1, LIBINPUT_PROP_TAP_BUTTONMAP, 8, 1},
+    {"lmrTapButtonMapEnabledByDefault",     PT_INT, 0, 1, LIBINPUT_PROP_TAP_BUTTONMAP_DEFAULT, 8, 1},
+    {"lmrTapButtonMap",                     PT_INT, 0, 1, LIBINPUT_PROP_TAP_BUTTONMAP, 8, 1},
 
     /* Tap and Drag Enabled */
-    {"TapAndDragEnabledByDefault",          PT_INT, 0, 1, LIBINPUT_PROP_TAP_DRAG_DEFAULT, 8, 0},
-    {"TapAndDrag",                          PT_INT, 0, 1, LIBINPUT_PROP_TAP_DRAG, 8, 0},
+    {"tapAndDragEnabledByDefault",          PT_INT, 0, 1, LIBINPUT_PROP_TAP_DRAG_DEFAULT, 8, 0},
+    {"tapAndDrag",                          PT_INT, 0, 1, LIBINPUT_PROP_TAP_DRAG, 8, 0},
 
     /* Tap and Drag Lock Enabled */
-    {"TapDragLockEnabledByDefault",         PT_INT, 0, 1, LIBINPUT_PROP_TAP_DRAG_LOCK_DEFAULT, 8, 0},
-    {"TapDragLock",                         PT_INT, 0, 1, LIBINPUT_PROP_TAP_DRAG_LOCK, 8, 0},
+    {"tapDragLockEnabledByDefault",         PT_INT, 0, 1, LIBINPUT_PROP_TAP_DRAG_LOCK_DEFAULT, 8, 0},
+    {"tapDragLock",                         PT_INT, 0, 1, LIBINPUT_PROP_TAP_DRAG_LOCK, 8, 0},
 
     /* libinput normalizes the accel to -1/1 */
-    {"DefaultPointerAcceleration",          PT_DOUBLE, -1.0, 1.0,   LIBINPUT_PROP_ACCEL_DEFAULT,  0 /*float */, 0},
-    {"PointerAcceleration",                 PT_DOUBLE, -1.0, 1.0,   LIBINPUT_PROP_ACCEL,  0 /*float */, 0},
+    {"defaultPointerAcceleration",          PT_DOUBLE, -1.0, 1.0,   LIBINPUT_PROP_ACCEL_DEFAULT,  0 /*float */, 0},
+    {"pointerAcceleration",                 PT_DOUBLE, -1.0, 1.0,   LIBINPUT_PROP_ACCEL,  0 /*float */, 0},
 
     /* Libinput Accel Profile */
-    {"SupportsPointerAccelerationProfileAdaptive",  PT_BOOL, 0, 1, LIBINPUT_PROP_ACCEL_PROFILES_AVAILABLE, 8, 0},
-    {"DefaultPointerAccelerationProfileAdaptive",   PT_BOOL, 0, 1, LIBINPUT_PROP_ACCEL_PROFILE_ENABLED_DEFAULT, 8, 0},
-    {"PointerAccelerationProfileAdaptive",          PT_BOOL, 0, 1, LIBINPUT_PROP_ACCEL_PROFILE_ENABLED, 8, 0},
-    {"SupportsPointerAccelerationProfileFlat",      PT_BOOL, 0, 1, LIBINPUT_PROP_ACCEL_PROFILES_AVAILABLE, 8, 1},
-    {"DefaultPointerAccelerationProfileFlat",       PT_BOOL, 0, 1, LIBINPUT_PROP_ACCEL_PROFILE_ENABLED_DEFAULT, 8, 1},
-    {"PointerAccelerationProfileFlat",              PT_BOOL, 0, 1, LIBINPUT_PROP_ACCEL_PROFILE_ENABLED, 8, 1},
+    {"supportsPointerAccelerationProfileAdaptive",  PT_BOOL, 0, 1, LIBINPUT_PROP_ACCEL_PROFILES_AVAILABLE, 8, 0},
+    {"defaultPointerAccelerationProfileAdaptive",   PT_BOOL, 0, 1, LIBINPUT_PROP_ACCEL_PROFILE_ENABLED_DEFAULT, 8, 0},
+    {"pointerAccelerationProfileAdaptive",          PT_BOOL, 0, 1, LIBINPUT_PROP_ACCEL_PROFILE_ENABLED, 8, 0},
+    {"supportsPointerAccelerationProfileFlat",      PT_BOOL, 0, 1, LIBINPUT_PROP_ACCEL_PROFILES_AVAILABLE, 8, 1},
+    {"defaultPointerAccelerationProfileFlat",       PT_BOOL, 0, 1, LIBINPUT_PROP_ACCEL_PROFILE_ENABLED_DEFAULT, 8, 1},
+    {"pointerAccelerationProfileFlat",              PT_BOOL, 0, 1, LIBINPUT_PROP_ACCEL_PROFILE_ENABLED, 8, 1},
 
     /* Natural Scrolling */
-    {"NaturalScrollEnabledByDefault",       PT_INT, 0, 1, LIBINPUT_PROP_NATURAL_SCROLL_DEFAULT, 8, 0},
-    {"NaturalScroll",                       PT_INT, 0, 1, LIBINPUT_PROP_NATURAL_SCROLL, 8, 0},
+    {"naturalScrollEnabledByDefault",       PT_INT, 0, 1, LIBINPUT_PROP_NATURAL_SCROLL_DEFAULT, 8, 0},
+    {"naturalScroll",                       PT_INT, 0, 1, LIBINPUT_PROP_NATURAL_SCROLL, 8, 0},
 
     /* Two-Finger Scrolling */
-    {"SupportsScrollTwoFinger",             PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHODS_AVAILABLE, 8, 0},
-    {"ScrollTwoFingerEnabledByDefault",     PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHOD_ENABLED_DEFAULT, 8, 0},
-    {"ScrollTwoFinger",                     PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHOD_ENABLED, 8, 0},
+    {"supportsScrollTwoFinger",             PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHODS_AVAILABLE, 8, 0},
+    {"scrollTwoFingerEnabledByDefault",     PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHOD_ENABLED_DEFAULT, 8, 0},
+    {"scrollTwoFinger",                     PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHOD_ENABLED, 8, 0},
 
     /* Edge Scrolling */
-    {"SupportsScrollEdge",                  PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHODS_AVAILABLE, 8, 1},
-    {"ScrollEdgeEnabledByDefault",          PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHOD_ENABLED_DEFAULT, 8, 1},
-    {"ScrollEdge",                          PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHOD_ENABLED, 8, 1},
+    {"supportsScrollEdge",                  PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHODS_AVAILABLE, 8, 1},
+    {"scrollEdgeEnabledByDefault",          PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHOD_ENABLED_DEFAULT, 8, 1},
+    {"scrollEdge",                          PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHOD_ENABLED, 8, 1},
 
     /* scroll on button */
-    {"SupportsScrollOnButtonDown",          PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHODS_AVAILABLE, 8, 2},
-    {"ScrollOnButtonDownEnabledByDefault",  PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHOD_ENABLED_DEFAULT, 8, 2},
-    {"ScrollOnButtonDown",                  PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHOD_ENABLED, 8, 2},
+    {"supportsScrollOnButtonDown",          PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHODS_AVAILABLE, 8, 2},
+    {"scrollOnButtonDownEnabledByDefault",  PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHOD_ENABLED_DEFAULT, 8, 2},
+    {"scrollOnButtonDown",                  PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHOD_ENABLED, 8, 2},
 
     /* Scroll Button for scroll on button Down */
-    {"DefaultScrollButton",                 PT_INT, 0, INT_MAX, LIBINPUT_PROP_SCROLL_BUTTON_DEFAULT, 32, 0},
-    {"ScrollButton",                        PT_INT, 0, INT_MAX, LIBINPUT_PROP_SCROLL_BUTTON, 32, 0},
+    {"defaultScrollButton",                 PT_INT, 0, INT_MAX, LIBINPUT_PROP_SCROLL_BUTTON_DEFAULT, 32, 0},
+    {"scrollButton",                        PT_INT, 0, INT_MAX, LIBINPUT_PROP_SCROLL_BUTTON, 32, 0},
 
     /* Click Methods */
-    {"SupportsClickMethodAreas",            PT_INT, 0, 1, LIBINPUT_PROP_CLICK_METHODS_AVAILABLE, 8, 0},
-    {"DefaultClickMethodAreas",             PT_INT, 0, 1, LIBINPUT_PROP_CLICK_METHOD_ENABLED_DEFAULT, 8, 0},
-    {"ClickMethodAreas",                    PT_INT, 0, 1, LIBINPUT_PROP_CLICK_METHOD_ENABLED, 8, 0},
+    {"supportsClickMethodAreas",            PT_INT, 0, 1, LIBINPUT_PROP_CLICK_METHODS_AVAILABLE, 8, 0},
+    {"defaultClickMethodAreas",             PT_INT, 0, 1, LIBINPUT_PROP_CLICK_METHOD_ENABLED_DEFAULT, 8, 0},
+    {"clickMethodAreas",                    PT_INT, 0, 1, LIBINPUT_PROP_CLICK_METHOD_ENABLED, 8, 0},
 
-    {"SupportsClickMethodClickfinger",      PT_INT, 0, 1, LIBINPUT_PROP_CLICK_METHODS_AVAILABLE, 8, 1},
-    {"DefaultClickMethodClickfinger",       PT_INT, 0, 1, LIBINPUT_PROP_CLICK_METHOD_ENABLED_DEFAULT, 8, 1},
-    {"ClickMethodClickfinger",              PT_INT, 0, 1, LIBINPUT_PROP_CLICK_METHOD_ENABLED, 8, 1},
+    {"supportsClickMethodClickfinger",      PT_INT, 0, 1, LIBINPUT_PROP_CLICK_METHODS_AVAILABLE, 8, 1},
+    {"defaultClickMethodClickfinger",       PT_INT, 0, 1, LIBINPUT_PROP_CLICK_METHOD_ENABLED_DEFAULT, 8, 1},
+    {"clickMethodClickfinger",              PT_INT, 0, 1, LIBINPUT_PROP_CLICK_METHOD_ENABLED, 8, 1},
 
     /* libinput doesn't have a separate toggle for horiz scrolling */
     { NULL, PT_INT, 0, 0, 0, 0, 0 }
