@@ -49,7 +49,7 @@ class XlibTouchpad : public QObject
 
 public:
     XlibTouchpad(QObject *parent, Display *display, int deviceId);
-    virtual ~XlibTouchpad() {};
+    virtual ~XlibTouchpad() {}
 
     int deviceId() { return m_deviceId; }
     const QStringList &supportedParameters() const { return m_supported; }

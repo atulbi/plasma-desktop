@@ -92,8 +92,22 @@ XlibBackend::XlibBackend(QObject *parent) :
 
     m_synapticsIdentifierAtom.intern(m_connection, SYNAPTICS_PROP_CAPABILITIES);
     m_libinputIdentifierAtom.intern(m_connection, "libinput Send Events Modes Available");
+//    findTouchpad();
 
     m_device.reset(findTouchpad());
+
+//    XlibTouchpad* touchpad = findTouchpad();
+
+//    LibinputTouchpad* libinputtouchpad = dynamic_cast<LibinputTouchpad*>(touchpad);
+
+//    if (libinputtouchpad) {
+//        m_device.reset(libinputtouchpad);
+//    }
+//    else {
+//        m_device.reset(touchpad);
+//    }
+
+
     if (!m_device) {
         m_errorString = i18n("No touchpad found");
     }
@@ -123,9 +137,11 @@ XlibTouchpad* XlibBackend::findTouchpad()
             if (*atom == m_libinputIdentifierAtom.atom()) {
                 m_mode = TouchpadInputBackendMode::XLibinput;
                 return new LibinputTouchpad(m_display.data(), info->id);
+//                m_libinputtouchpad.reset(new LibinputTouchpad(m_display.data(), info->id));
             } else if (*atom == m_synapticsIdentifierAtom.atom()) {
                 m_mode = TouchpadInputBackendMode::XSynaptics;
                 return new SynapticsTouchpad(m_display.data(), info->id);
+//                m_synapticstouchpad.reset(new SynapticsTouchpad(m_display.data(), info->id));
             }
         }
     }
@@ -349,7 +365,16 @@ QStringList XlibBackend::listMouses(const QStringList &blacklist)
 
 QVector<QObject *> XlibBackend::getDevices() const
 {
-    return m_device ? QVector<QObject*> { m_device.data() } : QVector<QObject*>();
+//    QVector<QObject*> touchpads;
+
+//    if (!m_synapticstouchpad.isNull()) {
+//        touchpads.push_back(m_synapticstouchpad.data());
+//    }
+//    if (!m_libinputtouchpad.isNull()) {
+//        touchpads.push_back(m_libinputtouchpad.data());
+//    }
+
+    return m_device ? QVector<QObject *> { m_device.data() } : QVector<QObject *> ();
 }
 
 void XlibBackend::watchForEvents(bool keyboard)

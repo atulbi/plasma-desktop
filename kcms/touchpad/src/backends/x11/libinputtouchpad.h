@@ -28,6 +28,8 @@ class LibinputTouchpad : public XlibTouchpad, public LibinputCommon
 
 public:
     LibinputTouchpad(Display *display, int deviceId);
+    ~LibinputTouchpad() override {}
+
     bool getConfig() override;
     bool applyConfig() override;
     bool getDefaultConfig() override;

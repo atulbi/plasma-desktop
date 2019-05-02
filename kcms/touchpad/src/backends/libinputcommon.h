@@ -116,6 +116,9 @@ class LibinputCommon
 
 public:
 
+    LibinputCommon() {}
+    virtual ~LibinputCommon() {}
+
     virtual QString name() const;
     virtual bool supportsDisableEvents() const;
     virtual bool isEnabled() const;
@@ -169,8 +172,6 @@ public:
     void setPointerAcceleration(qreal acceleration) {
         m_pointerAcceleration.set(acceleration);
     }
-
-//    virtual bool supportsPointerAcceleration() const;
 
     virtual bool supportsPointerAccelerationProfileFlat() const;
     bool defaultPointerAccelerationProfileFlat() const {

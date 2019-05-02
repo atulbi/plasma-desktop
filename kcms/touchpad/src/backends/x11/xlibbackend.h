@@ -29,6 +29,8 @@
 
 #include "touchpadbackend.h"
 #include "xlibtouchpad.h"
+#include "libinputtouchpad.h"
+#include "synapticstouchpad.h"
 
 #include <xcb/xcb.h>
 
@@ -94,6 +96,9 @@ protected:
 
     XlibTouchpad *findTouchpad();
     QScopedPointer<XlibTouchpad> m_device;
+
+    QScopedPointer<LibinputTouchpad> m_libinputtouchpad;
+    QScopedPointer<SynapticsTouchpad> m_synapticstouchpad;
 
     QString m_errorString;
     QScopedPointer<XlibNotifications> m_notifications;

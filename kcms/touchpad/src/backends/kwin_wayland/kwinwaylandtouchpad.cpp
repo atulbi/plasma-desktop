@@ -25,8 +25,8 @@
 
 #include "logging.h"
 
-KWinWaylandTouchpad::KWinWaylandTouchpad(QString dbusName) //:
-//    LibinputCommon()
+KWinWaylandTouchpad::KWinWaylandTouchpad(QString dbusName) :
+    LibinputCommon()
 {
     m_iface = new QDBusInterface(QStringLiteral("org.kde.KWin"),
                                  QStringLiteral("/org/kde/KWin/InputDevice/") + dbusName,
