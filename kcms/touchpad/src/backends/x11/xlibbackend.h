@@ -97,9 +97,6 @@ protected:
     XlibTouchpad *findTouchpad();
     QScopedPointer<XlibTouchpad> m_device;
 
-    QScopedPointer<LibinputTouchpad> m_libinputtouchpad;
-    QScopedPointer<SynapticsTouchpad> m_synapticstouchpad;
-
     QString m_errorString;
     QScopedPointer<XlibNotifications> m_notifications;
     QScopedPointer<XRecordKeyboardMonitor> m_keyboard;

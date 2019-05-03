@@ -43,12 +43,12 @@ struct Parameter {
     unsigned prop_offset;       /* Offset inside property */
 };
 
-class XlibTouchpad : public QObject
+class XlibTouchpad
 {
-    Q_OBJECT
+    Q_GADGET
 
 public:
-    XlibTouchpad(QObject *parent, Display *display, int deviceId);
+    XlibTouchpad(Display *display, int deviceId);
     virtual ~XlibTouchpad() {}
 
     int deviceId() { return m_deviceId; }

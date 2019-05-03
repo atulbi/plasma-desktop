@@ -1,7 +1,4 @@
 #include "libinputcommon.h"
 
 
-//LibinputCommon::LibinputCommon()
-//{
-
-//}
+#include "moc_libinputcommon.cpp"

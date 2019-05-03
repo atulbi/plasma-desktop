@@ -22,7 +22,7 @@
 #include "xlibtouchpad.h"
 #include "xcbatom.h"
 
-class SynapticsTouchpad : public XlibTouchpad
+class SynapticsTouchpad : public QObject, public XlibTouchpad
 {
     Q_OBJECT
 

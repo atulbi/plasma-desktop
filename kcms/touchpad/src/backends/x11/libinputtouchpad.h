@@ -19,10 +19,12 @@
 #ifndef LIBINPUTTOUCHPAD_H
 #define LIBINPUTTOUCHPAD_H
 
+#include <QObject>
+
 #include "xlibtouchpad.h"
 #include "backends/libinputcommon.h"
 
-class LibinputTouchpad : public XlibTouchpad, public LibinputCommon
+class LibinputTouchpad : public LibinputCommon, public XlibTouchpad
 {
     Q_OBJECT
 
@@ -75,7 +77,7 @@ private:
     // acceleration speed and profile
     bool supportsPointerAcceleration() const override {
         return m_pointerAcceleration.avail;
-    }    
+    }
     bool supportsPointerAccelerationProfileFlat() const override {
         return m_supportsPointerAccelerationProfileFlat.avail ? m_supportsPointerAccelerationProfileFlat.val : false;
     }
@@ -86,6 +88,9 @@ private:
     // scrolling
     bool supportsNaturalScroll() const override {
         return m_naturalScroll.avail;
+    }
+    bool supportsHorizontalScrolling() const override {
+        return true;
     }
     bool supportsScrollTwoFinger() const override {
         return m_supportsScrollTwoFinger.avail ? m_supportsScrollTwoFinger.val : false;
@@ -107,83 +112,12 @@ private:
 
 private:
     // general
-//    Prop<bool> m_supportsDisableEvents = Prop<bool>("supportsDisableEvents");
-//    Prop<bool> m_enabled = Prop<bool>("enabled");
     Prop<bool> m_enabledDefault = Prop<bool>("enabledDefault");
 
     //
     // advanced
-//    Prop<Qt::MouseButtons> m_supportedButtons  = Prop<Qt::MouseButtons>("supportedButtons");
-
-//    Prop<bool> m_leftHandedEnabledByDefault = Prop<bool>("leftHandedEnabledByDefault");
-//    Prop<bool> m_leftHanded = Prop<bool>("leftHanded");
-
-//    Prop<bool> m_supportsDisableEventsOnExternalMouse = Prop<bool>("supportsDisableEventsOnExternalMouse");
     Prop<bool> m_disableEventsOnExternalMouse = Prop<bool>("disableEventsOnExternalMouse");
     Prop<bool> m_disableEventsOnExternalMouseDefault = Prop<bool>("disableEventsOnExternalMouseDefault");
-
-//    Prop<bool> m_disableWhileTypingEnabledByDefault = Prop<bool>("disableWhileTypingEnabledByDefault");
-//    Prop<bool> m_disableWhileTyping = Prop<bool>("disableWhileTyping");
-
-//    Prop<bool> m_middleEmulationEnabledByDefault = Prop<bool>("middleEmulationEnabledByDefault");
-//    Prop<bool> m_middleEmulation = Prop<bool>("middleEmulation");
-
-    //
-    // acceleration speed and profile
-//    Prop<qreal> m_defaultPointerAcceleration = Prop<qreal>("defaultPointerAcceleration");
-//    Prop<qreal> m_pointerAcceleration = Prop<qreal>("pointerAcceleration");
-
-//    Prop<bool> m_supportsPointerAccelerationProfileFlat = Prop<bool>("supportsPointerAccelerationProfileFlat");
-//    Prop<bool> m_defaultPointerAccelerationProfileFlat = Prop<bool>("defaultPointerAccelerationProfileFlat");
-//    Prop<bool> m_pointerAccelerationProfileFlat = Prop<bool>("pointerAccelerationProfileFlat");
-
-//    Prop<bool> m_supportsPointerAccelerationProfileAdaptive = Prop<bool>("supportsPointerAccelerationProfileAdaptive");
-//    Prop<bool> m_defaultPointerAccelerationProfileAdaptive = Prop<bool>("defaultPointerAccelerationProfileAdaptive");
-//    Prop<bool> m_pointerAccelerationProfileAdaptive = Prop<bool>("pointerAccelerationProfileAdaptive");
-
-    //
-    // scrolling
-//    Prop<bool> m_naturalScrollEnabledByDefault = Prop<bool>("naturalScrollEnabledByDefault");
-//    Prop<bool> m_naturalScroll = Prop<bool>("naturalScroll");
-
-//    Prop<bool> m_supportsScrollTwoFinger = Prop<bool>("supportsScrollTwoFinger");
-//    Prop<bool> m_scrollTwoFingerEnabledByDefault = Prop<bool>("scrollTwoFingerEnabledByDefault");
-//    Prop<bool> m_isScrollTwoFinger = Prop<bool>("scrollTwoFinger");
-
-//    Prop<bool> m_supportsScrollEdge = Prop<bool>("supportsScrollEdge");
-//    Prop<bool> m_scrollEdgeEnabledByDefault = Prop<bool>("scrollEdgeEnabledByDefault");
-//    Prop<bool> m_isScrollEdge = Prop<bool>("scrollEdge");
-
-//    Prop<bool> m_supportsScrollOnButtonDown = Prop<bool>("supportsScrollOnButtonDown");
-//    Prop<bool> m_scrollOnButtonDownEnabledByDefault = Prop<bool>("scrollOnButtonDownEnabledByDefault");
-//    Prop<bool> m_isScrollOnButtonDown = Prop<bool>("scrollOnButtonDown");
-
-//    Prop<quint32> m_defaultScrollButton = Prop<quint32>("defaultScrollButton");
-//    Prop<quint32> m_scrollButton = Prop<quint32>("scrollButton");
-
-    //
-    // tapping
-//    Prop<int> m_tapFingerCount = Prop<int>("tapFingerCount");
-//    Prop<bool> m_tapToClickEnabledByDefault = Prop<bool>("tapToClickEnabledByDefault");
-//    Prop<bool> m_tapToClick = Prop<bool>("tapToClick");
-
-//    Prop<bool> m_lmrTapButtonMapEnabledByDefault = Prop<bool>("lmrTapButtonMapEnabledByDefault");
-//    Prop<bool> m_lmrTapButtonMap = Prop<bool>("lmrTapButtonMap");
-
-//    Prop<bool> m_tapAndDragEnabledByDefault = Prop<bool>("tapAndDragEnabledByDefault");
-//    Prop<bool> m_tapAndDrag = Prop<bool>("tapAndDrag");
-//    Prop<bool> m_tapDragLockEnabledByDefault = Prop<bool>("tapDragLockEnabledByDefault");
-//    Prop<bool> m_tapDragLock = Prop<bool>("tapDragLock");
-
-    // Click Method
-//    Prop<bool> m_supportsClickMethodAreas = Prop<bool>("supportsClickMethodAreas");
-//    Prop<bool> m_defaultClickMethodAreas = Prop<bool>("defaultClickMethodAreas");
-//    Prop<bool> m_clickMethodAreas = Prop<bool>("clickMethodAreas");
-
-//    Prop<bool> m_supportsClickMethodClickfinger = Prop<bool>("supportsClickMethodClickfinger");
-//    Prop<bool> m_defaultClickMethodClickfinger = Prop<bool>("defaultClickMethodClickfinger");
-//    Prop<bool> m_clickMethodClickfinger = Prop<bool>("clickMethodClickfinger");
-
 
     QString m_name;
 };

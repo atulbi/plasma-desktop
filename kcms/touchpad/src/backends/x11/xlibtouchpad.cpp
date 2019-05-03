@@ -16,8 +16,7 @@ static QVariant negateVariant(const QVariant &value)
     return value;
 }
 
-XlibTouchpad::XlibTouchpad(QObject *parent, Display *display, int deviceId) :
-    QObject(parent),
+XlibTouchpad::XlibTouchpad(Display *display, int deviceId) :
     m_display(display),
     m_connection(XGetXCBConnection(display)),
     m_deviceId(deviceId)

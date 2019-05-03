@@ -84,6 +84,9 @@ const struct Parameter libinputProperties[] = {
     {"naturalScrollEnabledByDefault",       PT_INT, 0, 1, LIBINPUT_PROP_NATURAL_SCROLL_DEFAULT, 8, 0},
     {"naturalScroll",                       PT_INT, 0, 1, LIBINPUT_PROP_NATURAL_SCROLL, 8, 0},
 
+    /* Horizontal scrolling */
+    {"horizontalScrolling",          PT_INT, 0, 1, LIBINPUT_PROP_HORIZ_SCROLL_ENABLED, 8, 0},
+
     /* Two-Finger Scrolling */
     {"supportsScrollTwoFinger",             PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHODS_AVAILABLE, 8, 0},
     {"scrollTwoFingerEnabledByDefault",     PT_INT, 0, 1, LIBINPUT_PROP_SCROLL_METHOD_ENABLED_DEFAULT, 8, 0},
@@ -151,8 +154,8 @@ Qt::MouseButtons maskBtns(Display *display, XIButtonClassInfo *buttonInfo)
 }
 
 LibinputTouchpad::LibinputTouchpad(Display *display, int deviceId):
-    XlibTouchpad(nullptr, display, deviceId),
-    LibinputCommon()
+    LibinputCommon(),
+    XlibTouchpad(display, deviceId)
 {
     loadSupportedProperties(libinputProperties);
 
@@ -226,6 +229,8 @@ bool LibinputTouchpad::getConfig()
     success &= valueLoader(m_naturalScrollEnabledByDefault);
     success &= valueLoader(m_naturalScroll);
 
+    success &= valueLoader(m_horizontalScrolling);
+
     success &= valueLoader(m_supportsScrollTwoFinger);
     success &= valueLoader(m_scrollTwoFingerEnabledByDefault);
     success &= valueLoader(m_isScrollTwoFinger);
@@ -268,6 +273,7 @@ bool LibinputTouchpad::applyConfig()
          << valueWriter(m_pointerAccelerationProfileFlat)
          << valueWriter(m_pointerAccelerationProfileAdaptive)
          << valueWriter(m_naturalScroll)
+         << valueWriter(m_horizontalScrolling)
          << valueWriter(m_isScrollTwoFinger)
          << valueWriter(m_isScrollEdge)
          << valueWriter(m_isScrollOnButtonDown)
@@ -312,6 +318,7 @@ bool LibinputTouchpad::getDefaultConfig()
     m_pointerAccelerationProfileFlat.set(m_defaultPointerAccelerationProfileFlat);
     m_pointerAccelerationProfileAdaptive.set(m_defaultPointerAccelerationProfileAdaptive);
     m_naturalScroll.set(m_naturalScrollEnabledByDefault);
+    m_horizontalScrolling.set(true);
     m_isScrollTwoFinger.set(m_scrollTwoFingerEnabledByDefault);
     m_isScrollEdge.set(m_scrollEdgeEnabledByDefault);
     m_isScrollOnButtonDown.set(m_scrollOnButtonDownEnabledByDefault);
@@ -338,6 +345,7 @@ bool LibinputTouchpad::isChangedConfig()
             m_pointerAccelerationProfileFlat.changed() ||
             m_pointerAccelerationProfileAdaptive.changed() ||
             m_naturalScroll.changed() ||
+            m_horizontalScrolling.changed() ||
             m_isScrollTwoFinger.changed() ||
             m_isScrollEdge.changed() ||
             m_isScrollOnButtonDown.changed() ||

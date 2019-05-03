@@ -27,9 +27,9 @@ template<>
 Qt::MouseButtons valueLoaderPart(QVariant const &reply) { return static_cast<Qt::MouseButtons>(reply.toInt()); }
 }
 
-class LibinputCommon
+class LibinputCommon : public QObject
 {
-//    Q_OBJECT
+    Q_OBJECT
 
     //
     // general
@@ -90,6 +90,10 @@ class LibinputCommon
     Q_PROPERTY(bool naturalScrollEnabledByDefault READ naturalScrollEnabledByDefault CONSTANT)
     Q_PROPERTY(bool naturalScroll READ isNaturalScroll WRITE setNaturalScroll NOTIFY naturalScrollChanged)
 
+    Q_PROPERTY(bool supportsHorizontalScrolling READ supportsHorizontalScrolling CONSTANT)
+    Q_PROPERTY(bool horizontalScrollingByDefault READ horizontalScrollingByDefault CONSTANT)
+    Q_PROPERTY(bool horizontalScrolling READ horizontalScrolling WRITE setHorizontalScrolling NOTIFY horizontalScrollingChanged)
+
     Q_PROPERTY(bool supportsScrollTwoFinger READ supportsScrollTwoFinger CONSTANT)
     Q_PROPERTY(bool scrollTwoFingerEnabledByDefault READ scrollTwoFingerEnabledByDefault CONSTANT)
     Q_PROPERTY(bool scrollTwoFinger READ isScrollTwoFinger WRITE setScrollTwoFinger NOTIFY scrollMethodChanged)
@@ -119,10 +123,10 @@ public:
     LibinputCommon() {}
     virtual ~LibinputCommon() {}
 
-    virtual QString name() const;
-    virtual bool supportsDisableEvents() const;
-    virtual bool isEnabled() const;
-    virtual void setEnabled(bool set);
+    virtual QString name() const = 0;
+    virtual bool supportsDisableEvents() const = 0;
+    virtual bool isEnabled() const = 0;
+    virtual void setEnabled(bool set) = 0;
 
     //
     // advanced
@@ -130,7 +134,7 @@ public:
         return m_supportedButtons.val;
     }
 
-    virtual bool supportsLeftHanded() const;
+    virtual bool supportsLeftHanded() const = 0;
     bool leftHandedEnabledByDefault() const {
         return m_leftHandedEnabledByDefault.val;
     }
@@ -141,9 +145,9 @@ public:
         m_leftHanded.set(set);
     }
 
-    virtual bool supportsDisableEventsOnExternalMouse() const;
+    virtual bool supportsDisableEventsOnExternalMouse() const = 0;
 
-    virtual bool supportsDisableWhileTyping() const;
+    virtual bool supportsDisableWhileTyping() const = 0;
     bool disableWhileTypingEnabledByDefault() const {
         return m_disableWhileTypingEnabledByDefault.val;
     }
@@ -154,7 +158,7 @@ public:
         m_disableWhileTyping.set(set);
     }
 
-    virtual bool supportsMiddleEmulation() const;
+    virtual bool supportsMiddleEmulation() const = 0;
     bool middleEmulationEnabledByDefault() const {
         return m_middleEmulationEnabledByDefault.val;
     }
@@ -165,7 +169,7 @@ public:
         m_middleEmulation.set(set);
     }
 
-    virtual bool supportsPointerAcceleration() const;
+    virtual bool supportsPointerAcceleration() const = 0;
     qreal pointerAcceleration() const {
         return m_pointerAcceleration.val;
     }
@@ -173,7 +177,7 @@ public:
         m_pointerAcceleration.set(acceleration);
     }
 
-    virtual bool supportsPointerAccelerationProfileFlat() const;
+    virtual bool supportsPointerAccelerationProfileFlat() const = 0;
     bool defaultPointerAccelerationProfileFlat() const {
         return m_defaultPointerAccelerationProfileFlat.val;
     }
@@ -184,7 +188,7 @@ public:
         m_pointerAccelerationProfileFlat.set(set);
     }
 
-    virtual bool supportsPointerAccelerationProfileAdaptive() const;
+    virtual bool supportsPointerAccelerationProfileAdaptive() const = 0;
     bool defaultPointerAccelerationProfileAdaptive() const {
         return m_defaultPointerAccelerationProfileAdaptive.val;
     }
@@ -197,7 +201,7 @@ public:
 
     //
     // scrolling
-    virtual bool supportsNaturalScroll() const;
+    virtual bool supportsNaturalScroll() const = 0;
     bool naturalScrollEnabledByDefault() const {
         return m_naturalScrollEnabledByDefault.val;
     }
@@ -208,7 +212,18 @@ public:
         m_naturalScroll.set(set);
     }
 
-    virtual bool supportsScrollTwoFinger() const;
+    virtual bool supportsHorizontalScrolling() const = 0;
+    bool horizontalScrollingByDefault() const {
+        return true;
+    }
+    bool horizontalScrolling() const {
+        return m_horizontalScrolling.val;
+    }
+    void setHorizontalScrolling(bool set) {
+        m_horizontalScrolling.set(set);
+    }
+
+    virtual bool supportsScrollTwoFinger() const = 0;
     bool scrollTwoFingerEnabledByDefault() const {
         return m_scrollTwoFingerEnabledByDefault.val;
     }
@@ -219,7 +234,7 @@ public:
         m_isScrollTwoFinger.set(set);
     }
 
-    virtual bool supportsScrollEdge() const;
+    virtual bool supportsScrollEdge() const = 0;
     bool scrollEdgeEnabledByDefault() const {
         return m_scrollEdgeEnabledByDefault.val;
     }
@@ -230,7 +245,7 @@ public:
         m_isScrollEdge.set(set);
     }
 
-    virtual bool supportsScrollOnButtonDown() const;
+    virtual bool supportsScrollOnButtonDown() const = 0;
     bool scrollOnButtonDownEnabledByDefault() const {
         return m_scrollOnButtonDownEnabledByDefault.val;
     }
@@ -301,7 +316,7 @@ public:
 
     //
     // click method
-    virtual bool supportsClickMethodAreas() const;
+    virtual bool supportsClickMethodAreas() const = 0;
     bool defaultClickMethodAreas() const {
         return m_defaultClickMethodAreas.val;
     }
@@ -312,7 +327,7 @@ public:
         m_clickMethodAreas.set(set);
     }
 
-    virtual bool supportsClickMethodClickfinger() const;
+    virtual bool supportsClickMethodClickfinger() const = 0;
     bool defaultClickMethodClickfinger() const {
         return m_defaultClickMethodClickfinger.val;
     }
@@ -339,6 +354,7 @@ Q_SIGNALS:
     void pointerAccelerationProfileChanged();
     // scrolling
     void naturalScrollChanged();
+    void horizontalScrollingChanged();
     void scrollMethodChanged();
     void scrollButtonChanged();
     // click methods
@@ -425,6 +441,8 @@ protected:
     // scrolling
     Prop<bool> m_naturalScrollEnabledByDefault = Prop<bool>("naturalScrollEnabledByDefault");
     Prop<bool> m_naturalScroll = Prop<bool>("naturalScroll");
+
+    Prop<bool> m_horizontalScrolling = Prop<bool>("horizontalScrolling");
 
     Prop<bool> m_supportsScrollTwoFinger = Prop<bool>("supportsScrollTwoFinger");
     Prop<bool> m_scrollTwoFingerEnabledByDefault = Prop<bool>("scrollTwoFingerEnabledByDefault");

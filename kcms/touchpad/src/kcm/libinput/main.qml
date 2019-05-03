@@ -76,6 +76,7 @@ Kirigami.ScrollablePage {
         naturalScroll.load()
         rightClickMethod.load()
         middleClickMethod.load()
+        disableHorizontalScrolling.load()
 
         loading = false
     }
@@ -569,17 +570,18 @@ Kirigami.ScrollablePage {
         }
 
         Controls.CheckBox {
-            id: disbableHorizontalScrolling
+            id: disableHorizontalScrolling
             text: i18nd("kcm_touchpad", "Disable horizontal scrolling")
 
             function load() {
-                enabled = true //touchpad.supportsHorizontalScrolling
-                checked = true //enabled && touchpad.disableHorizontalScrolling
+                visible = touchpad.supportsHorizontalScrolling
+                enabled = touchpad.supportsHorizontalScrolling
+                checked = enabled && !touchpad.horizontalScrolling
             }
 
             onCheckedChanged: {
                 if (enabled && !root.loading) {
-//                    touchpad.disableHorizontalScrolling = checked
+                    touchpad.horizontalScrolling = !checked
                     root.changeSignal()
                 }
             }
